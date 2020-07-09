@@ -1,24 +1,19 @@
+  
 # Write a class to hold player information, e.g. what room they are in
 # currently.
-from room import *
+from room import Room
 
 class Player:
-    """
-    starts outside room. Name, current room, todo: inventory
-    """
-    def __init__(self, name, current_room, inventory):
+    def __init__(self, name, current_room):
+        super().__init__()
         self.name = name
-        self.room = current_room
-        self.inventory = inventory
-
-    def set_location(self, direction):
-        """
-        update the location based on input, display error if direction not allowed
-        """
-
-        next_room = room[self.room].navigate(direction)
-        if next_room != None:
-            self.room = next_room
-            print(next_room)
-        else:
-            print("You ran into a wall, try another direction!")
+        self.current_room = current_room
+        self.items = []
+        
+    def __str__(self):
+        return f'Name: {self.name}, Room: {self.current_room}'
+    
+    def navigate(self, direction):
+        if getattr(self.current_room, f'{direction}_to'):
+            self.current_room = getattr(self.current_room, f'{direction}_to')
+    
